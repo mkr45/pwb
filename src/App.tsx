@@ -1,6 +1,7 @@
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { useEffect, useRef, useState } from 'react'
 import engagementBg from './assets/engagement-bg.jpg'
+import mastMaganAudio from './assets/mast-magan.mp3'
 import couplePhoto from './assets/couple-photo.jpeg'
 import springFrame from './assets/spring-frame.jpg'
 import thirdPhotoOne from './assets/third-photo-one.jpeg'
@@ -33,9 +34,16 @@ const getTimeLeft = () => {
 function App() {
   const [timeLeft, setTimeLeft] = useState(getTimeLeft())
   const [scratchCelebrationKey, setScratchCelebrationKey] = useState(0)
+  const [showAudioButton, setShowAudioButton] = useState(false)
+  const [showMusicOverlay, setShowMusicOverlay] = useState(false)
+  const [isGiftOpening, setIsGiftOpening] = useState(false)
+  const [isOverlayClosing, setIsOverlayClosing] = useState(false)
+  const audioRef = useRef<HTMLAudioElement | null>(null)
   const scratchCanvasRef = useRef<HTMLCanvasElement | null>(null)
   const scratchDrawingRef = useRef(false)
   const scratchRevealTimeoutRef = useRef<number | null>(null)
+  const musicStartTimeoutRef = useRef<number | null>(null)
+  const overlayCloseTimeoutRef = useRef<number | null>(null)
   const { scrollY } = useScroll()
   const garlandDrift = useTransform(scrollY, [0, 2200], [0, -70])
 
@@ -45,6 +53,66 @@ function App() {
     }, 1000)
 
     return () => window.clearInterval(timer)
+  }, [])
+
+  useEffect(() => {
+    const audio = audioRef.current
+
+    if (!audio) {
+      return
+    }
+
+    audio.volume = 0.65
+    audio.preload = 'auto'
+
+    const tryPlay = async () => {
+      try {
+        if (audio.currentTime < 9) {
+          audio.currentTime = 9
+        }
+        await audio.play()
+        setShowAudioButton(false)
+        setIsOverlayClosing(true)
+        overlayCloseTimeoutRef.current = window.setTimeout(() => {
+          setShowMusicOverlay(false)
+          setIsOverlayClosing(false)
+        }, 700)
+      } catch {
+        setShowAudioButton(true)
+        setShowMusicOverlay(true)
+      }
+    }
+
+    const handleReady = () => {
+      void tryPlay()
+    }
+
+    const handleFirstInteraction = () => {
+      void tryPlay()
+      window.removeEventListener('pointerdown', handleFirstInteraction)
+      window.removeEventListener('keydown', handleFirstInteraction)
+    }
+
+    if (audio.readyState >= 1) {
+      void tryPlay()
+    } else {
+      audio.addEventListener('loadedmetadata', handleReady, { once: true })
+    }
+
+    window.addEventListener('pointerdown', handleFirstInteraction, { once: true })
+    window.addEventListener('keydown', handleFirstInteraction, { once: true })
+
+    return () => {
+      audio.removeEventListener('loadedmetadata', handleReady)
+      window.removeEventListener('pointerdown', handleFirstInteraction)
+      window.removeEventListener('keydown', handleFirstInteraction)
+      if (musicStartTimeoutRef.current) {
+        window.clearTimeout(musicStartTimeoutRef.current)
+      }
+      if (overlayCloseTimeoutRef.current) {
+        window.clearTimeout(overlayCloseTimeoutRef.current)
+      }
+    }
   }, [])
 
   useEffect(() => {
@@ -181,6 +249,82 @@ function App() {
 
   return (
     <main className="page">
+      <audio ref={audioRef} src={mastMaganAudio} loop autoPlay />
+      {showMusicOverlay ? (
+        <div className={`music-overlay ${isOverlayClosing ? 'music-overlay--closing' : ''}`}>
+          <div className="music-overlay__decor" aria-hidden="true">
+            <span className="music-overlay__bloom music-overlay__bloom--top-left" />
+            <span className="music-overlay__bloom music-overlay__bloom--top-right" />
+            <span className="music-overlay__bloom music-overlay__bloom--bottom-left" />
+            <span className="music-overlay__bloom music-overlay__bloom--bottom-right" />
+            <span className="music-overlay__glow music-overlay__glow--one" />
+            <span className="music-overlay__glow music-overlay__glow--two" />
+          </div>
+          <button
+            type="button"
+            className={`music-gift ${isGiftOpening ? 'is-opening' : ''}`}
+            onClick={() => {
+              if (isGiftOpening) {
+                return
+              }
+
+              setIsGiftOpening(true)
+              musicStartTimeoutRef.current = window.setTimeout(async () => {
+                try {
+                  if (audioRef.current && audioRef.current.currentTime < 9) {
+                    audioRef.current.currentTime = 9
+                  }
+                  await audioRef.current?.play()
+                  setShowAudioButton(false)
+                  setIsOverlayClosing(true)
+                  overlayCloseTimeoutRef.current = window.setTimeout(() => {
+                    setShowMusicOverlay(false)
+                    setIsOverlayClosing(false)
+                  }, 700)
+                  setIsGiftOpening(false)
+                } catch {
+                  setShowMusicOverlay(true)
+                  setIsOverlayClosing(false)
+                  setIsGiftOpening(false)
+                }
+              }, 900)
+            }}
+          >
+            <span className="music-overlay__eyebrow">A Special Surprise</span>
+            <span className="music-gift__scene" aria-hidden="true">
+              <span className="music-gift__spark music-gift__spark--one" />
+              <span className="music-gift__spark music-gift__spark--two" />
+              <span className="music-gift__spark music-gift__spark--three" />
+              <span className="music-ringbox">
+                <span className="music-ringbox__lid" />
+                <span className="music-ringbox__base" />
+                <span className="music-ringbox__inner" />
+                <span className="music-ringbox__ring">
+                  <span className="music-ringbox__diamond" />
+                </span>
+              </span>
+            </span>
+            <strong>{isGiftOpening ? 'Opening a little piece of our love...' : 'Tap to open the ring box and reveal our surprise'}</strong>
+            <span className="music-overlay__note">A tiny moment before the celebration unfolds.</span>
+          </button>
+        </div>
+      ) : null}
+      {showAudioButton ? (
+        <button
+          type="button"
+          className="audio-play-button"
+          onClick={async () => {
+            try {
+              await audioRef.current?.play()
+              setShowAudioButton(false)
+            } catch {
+              setShowAudioButton(true)
+            }
+          }}
+        >
+          Play Song
+        </button>
+      ) : null}
       <motion.div className="page-corner-garlands" aria-hidden="true" style={{ y: garlandDrift }}>
         <div className="page-corner-garlands__item page-corner-garlands__item--top-left">
           <span className="page-corner-garlands__top" />
