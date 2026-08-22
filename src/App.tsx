@@ -2,7 +2,6 @@ import { motion, useScroll, useTransform } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import engagementBg from './assets/engagement-bg.jpg'
 import couplePhoto from './assets/couple-photo.jpeg'
-import secondaryInvite from './assets/secondary-invite-trimmed.png'
 import thirdPhotoOne from './assets/third-photo-one.jpeg'
 import thirdPhotoTwo from './assets/third-photo-two.jpeg'
 import thirdPanel from './assets/third-panel.avif'
@@ -106,30 +105,7 @@ function App() {
                 <h1>Bulbul Agrawal</h1>
                 <div className="invite-card__meta">
                   <span className="invite-card__date">23 October 2026</span>
-                  <p className="invite-card__time">7:00 PM onwards</p>
-                </div>
-
-                <div className="invite-card__extras">
-                  <div className="invite-card__mini invite-card__mini--countdown">
-                    <div className="invite-card__mini-grid">
-                      <div className="invite-card__mini-box">
-                        <strong>{timeLeft.days}</strong>
-                        <span>Day</span>
-                      </div>
-                      <div className="invite-card__mini-box">
-                        <strong>{timeLeft.hours}</strong>
-                        <span>Hour</span>
-                      </div>
-                      <div className="invite-card__mini-box">
-                        <strong>{timeLeft.minutes}</strong>
-                        <span>Min</span>
-                      </div>
-                      <div className="invite-card__mini-box">
-                        <strong>{timeLeft.seconds}</strong>
-                        <span>Sec</span>
-                      </div>
-                    </div>
-                  </div>
+                  <p className="invite-card__time">Nagpur</p>
                 </div>
               </div>
             </div>
@@ -138,7 +114,7 @@ function App() {
             <div className="invite-card__secondary">
               <img
                 className="invite-card__secondary-image"
-                src={secondaryInvite}
+                src={thirdPanel}
                 alt="Secondary engagement invitation artwork"
               />
               <div className="invite-card__overlay-card">
@@ -174,6 +150,36 @@ function App() {
                 <div className="invite-card__third-copy">
                   <p>A glimpse of the couple</p>
                   <span>Prashant and Bulbul, ready to begin their forever with love, laughter, and togetherness.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="reveal">
+            <div className="invite-card__fourth">
+              <img
+                className="invite-card__fourth-image"
+                src={thirdPanel}
+                alt="Countdown invitation artwork"
+              />
+              <div className="invite-card__fourth-content">
+                <p className="invite-card__fourth-eyebrow">Counting Down To Our Day</p>
+                <div className="invite-card__fourth-grid">
+                  <div className="invite-card__fourth-box">
+                    <strong>{timeLeft.days}</strong>
+                    <span>Days</span>
+                  </div>
+                  <div className="invite-card__fourth-box">
+                    <strong>{timeLeft.hours}</strong>
+                    <span>Hours</span>
+                  </div>
+                  <div className="invite-card__fourth-box">
+                    <strong>{timeLeft.minutes}</strong>
+                    <span>Minutes</span>
+                  </div>
+                  <div className="invite-card__fourth-box">
+                    <strong>{timeLeft.seconds}</strong>
+                    <span>Seconds</span>
+                  </div>
                 </div>
               </div>
             </div>

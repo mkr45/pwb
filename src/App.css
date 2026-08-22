@@ -323,7 +323,7 @@
   border-radius: 0;
   overflow: hidden;
   background-color: #f7efe4;
-  border: 1px solid rgba(212, 175, 125, 0.34);
+  border: 0;
   box-shadow: 0 26px 60px rgba(110, 84, 52, 0.12);
   transform-origin: center top;
   animation: card-settle 1s cubic-bezier(0.2, 0.8, 0.2, 1) both;
@@ -353,6 +353,7 @@
   display: flex;
   justify-content: center;
   overflow: hidden;
+  margin-top: -1px;
   animation: card-settle 1s cubic-bezier(0.2, 0.8, 0.2, 1) 0.18s both;
 }
 
@@ -429,6 +430,7 @@
   justify-content: center;
   border-radius: 0;
   overflow: hidden;
+  margin-top: -1px;
   animation: card-settle 1s cubic-bezier(0.2, 0.8, 0.2, 1) 0.26s both;
 }
 
@@ -524,6 +526,140 @@
   height: 1px;
   margin: 0 auto 8px;
   background: linear-gradient(90deg, transparent, rgba(201, 159, 103, 0.95), transparent);
+}
+
+.invite-card__fourth {
+  position: relative;
+  margin-top: 0;
+  display: flex;
+  justify-content: center;
+  border-radius: 0;
+  overflow: hidden;
+  margin-top: -1px;
+  animation: card-settle 1s cubic-bezier(0.2, 0.8, 0.2, 1) 0.34s both;
+}
+
+.invite-card__fourth::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(120deg, transparent 18%, rgba(255, 255, 255, 0.2) 42%, transparent 66%);
+  transform: translateX(-120%);
+  animation: sheen-pass 6s ease-in-out 2.2s infinite;
+  pointer-events: none;
+}
+
+.invite-card__fourth-image {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  border-radius: 0;
+}
+
+.invite-card__fourth-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 34px 18px;
+  z-index: 1;
+}
+
+.invite-card__fourth-content::before {
+  content: '';
+  position: absolute;
+  inset: 22px;
+  border: 1px solid rgba(199, 158, 97, 0.34);
+  pointer-events: none;
+}
+
+.invite-card__fourth-eyebrow {
+  margin: 0 0 18px;
+  font-size: 0.72rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #a77a46;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.72);
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.invite-card__fourth-eyebrow::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 84px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(188, 143, 78, 0.95), transparent);
+  transform: translateX(-50%);
+}
+
+.invite-card__fourth-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  width: min(82%, 300px);
+}
+
+.invite-card__fourth-box {
+  display: flex;
+  min-height: 76px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  background:
+    linear-gradient(180deg, rgba(255, 253, 250, 0.95), rgba(239, 220, 188, 0.92));
+  border: 1px solid rgba(191, 145, 81, 0.44);
+  box-shadow:
+    0 18px 34px rgba(127, 85, 40, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+.invite-card__fourth-box::before {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.46);
+  border-radius: 15px;
+  pointer-events: none;
+}
+
+.invite-card__fourth-box::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 16px;
+  right: 16px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(194, 151, 84, 0.8), transparent);
+}
+
+.invite-card__fourth-box strong {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1.26rem;
+  line-height: 1;
+  color: #8e6128;
+  text-shadow: 0 8px 16px rgba(127, 85, 40, 0.16);
+  position: relative;
+  z-index: 1;
+}
+
+.invite-card__fourth-box span {
+  margin-top: 7px;
+  font-size: 0.56rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #8b6a49;
+  position: relative;
+  z-index: 1;
 }
 
 .invite-card__content {
