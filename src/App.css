@@ -19,7 +19,7 @@
 .page-corner-garlands__item {
   position: absolute;
   width: 92px;
-  height: 380px;
+  height: 538px;
   opacity: 0.96;
   animation: garland-sway 6s ease-in-out infinite;
 }
@@ -88,7 +88,7 @@
   top: 18px;
   left: calc(50% - 14px);
   width: 24px;
-  height: 350px;
+  height: 500px;
   transform: translateX(-50%);
 }
 
@@ -142,7 +142,7 @@
 
 .page-corner-garlands__string--short {
   left: calc(50% + 6px);
-  height: 350px;
+  height: 500px;
   transform: translateX(-50%);
 }
 
