@@ -100,9 +100,9 @@ function App() {
               />
               <div className="invite-card__content">
                 <p className="invite-card__eyebrow">Engagement Ceremony</p>
-                <h1>Prashant Agrawal</h1>
+                <h1>Prashant Agarawal</h1>
                 <div className="invite-card__ampersand">&</div>
-                <h1>Bulbul Agrawal</h1>
+                <h1>Bulbul Agarawal</h1>
                 <div className="invite-card__meta">
                   <span className="invite-card__date">23 October 2026</span>
                   <p className="invite-card__time">Nagpur</p>
