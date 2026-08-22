@@ -35,7 +35,7 @@ function App() {
   const [timeLeft, setTimeLeft] = useState(getTimeLeft())
   const [scratchCelebrationKey, setScratchCelebrationKey] = useState(0)
   const [showAudioButton, setShowAudioButton] = useState(false)
-  const [showMusicOverlay, setShowMusicOverlay] = useState(false)
+  const [showMusicOverlay, setShowMusicOverlay] = useState(true)
   const [isGiftOpening, setIsGiftOpening] = useState(false)
   const [isOverlayClosing, setIsOverlayClosing] = useState(false)
   const audioRef = useRef<HTMLAudioElement | null>(null)
