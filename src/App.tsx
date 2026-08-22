@@ -1,10 +1,10 @@
 import { motion, useScroll, useTransform } from 'framer-motion'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import engagementBg from './assets/engagement-bg.jpg'
 import couplePhoto from './assets/couple-photo.jpeg'
+import springFrame from './assets/spring-frame.jpg'
 import thirdPhotoOne from './assets/third-photo-one.jpeg'
 import thirdPhotoTwo from './assets/third-photo-two.jpeg'
-import thirdPanel from './assets/third-panel.avif'
 import './App.css'
 
 const eventDate = new Date('2026-10-23T19:00:00+05:30')
@@ -32,6 +32,10 @@ const getTimeLeft = () => {
 
 function App() {
   const [timeLeft, setTimeLeft] = useState(getTimeLeft())
+  const [scratchCelebrationKey, setScratchCelebrationKey] = useState(0)
+  const scratchCanvasRef = useRef<HTMLCanvasElement | null>(null)
+  const scratchDrawingRef = useRef(false)
+  const scratchRevealTimeoutRef = useRef<number | null>(null)
   const { scrollY } = useScroll()
   const garlandDrift = useTransform(scrollY, [0, 2200], [0, -70])
 
@@ -73,6 +77,108 @@ function App() {
     return () => observer.disconnect()
   }, [])
 
+  useEffect(() => {
+    const canvas = scratchCanvasRef.current
+
+    if (!canvas) {
+      return
+    }
+
+    const context = canvas.getContext('2d')
+
+    if (!context) {
+      return
+    }
+
+    const clearRemainingCover = () => {
+      const width = canvas.clientWidth
+      const height = canvas.clientHeight
+
+      context.save()
+      context.globalCompositeOperation = 'destination-out'
+      context.clearRect(0, 0, width, height)
+      context.restore()
+      setScratchCelebrationKey((current) => current + 1)
+    }
+
+    const drawCover = () => {
+      const ratio = window.devicePixelRatio || 1
+      const width = canvas.clientWidth
+      const height = canvas.clientHeight
+
+      canvas.width = width * ratio
+      canvas.height = height * ratio
+      context.setTransform(1, 0, 0, 1, 0, 0)
+      context.scale(ratio, ratio)
+
+      const gradient = context.createLinearGradient(0, 0, width, height)
+      gradient.addColorStop(0, '#f5d39d')
+      gradient.addColorStop(0.5, '#d9a55d')
+      gradient.addColorStop(1, '#b97d39')
+      context.globalCompositeOperation = 'source-over'
+      context.clearRect(0, 0, width, height)
+      context.fillStyle = gradient
+      context.fillRect(0, 0, width, height)
+
+      context.strokeStyle = 'rgba(255,255,255,0.28)'
+      context.lineWidth = 1
+      for (let line = 18; line < width + height; line += 26) {
+        context.beginPath()
+        context.moveTo(line, 0)
+        context.lineTo(line - height, height)
+        context.stroke()
+      }
+
+      context.fillStyle = 'rgba(255, 248, 236, 0.82)'
+      context.font = '600 18px Georgia'
+      context.textAlign = 'center'
+      context.fillText('Scratch to Reveal', width / 2, height / 2 + 6)
+      context.globalCompositeOperation = 'destination-out'
+    }
+
+    drawCover()
+    window.addEventListener('resize', drawCover)
+
+    canvas.dataset.clearScratch = 'ready'
+    ;(canvas as HTMLCanvasElement & { clearScratch?: () => void }).clearScratch = clearRemainingCover
+
+    return () => {
+      window.removeEventListener('resize', drawCover)
+      if (scratchRevealTimeoutRef.current) {
+        window.clearTimeout(scratchRevealTimeoutRef.current)
+      }
+    }
+  }, [])
+
+  const scratchAtPoint = (event: React.PointerEvent<HTMLCanvasElement>) => {
+    const canvas = scratchCanvasRef.current
+
+    if (!canvas) {
+      return
+    }
+
+    const context = canvas.getContext('2d')
+
+    if (!context) {
+      return
+    }
+
+    const rect = canvas.getBoundingClientRect()
+    const x = event.clientX - rect.left
+    const y = event.clientY - rect.top
+
+    context.beginPath()
+    context.arc(x, y, 18, 0, Math.PI * 2)
+    context.fill()
+
+    if (!scratchRevealTimeoutRef.current) {
+      scratchRevealTimeoutRef.current = window.setTimeout(() => {
+        ;(canvas as HTMLCanvasElement & { clearScratch?: () => void }).clearScratch?.()
+        scratchRevealTimeoutRef.current = null
+      }, 700)
+    }
+  }
+
   return (
     <main className="page">
       <motion.div className="page-corner-garlands" aria-hidden="true" style={{ y: garlandDrift }}>
@@ -103,10 +209,6 @@ function App() {
                 <h1>Prashant Agarawal</h1>
                 <div className="invite-card__ampersand">&</div>
                 <h1>Bulbul Agarawal</h1>
-                <div className="invite-card__meta">
-                  <span className="invite-card__date">23 October 2026</span>
-                  <p className="invite-card__time">Nagpur</p>
-                </div>
               </div>
             </div>
           </div>
@@ -114,7 +216,7 @@ function App() {
             <div className="invite-card__secondary">
               <img
                 className="invite-card__secondary-image"
-                src={thirdPanel}
+                src={springFrame}
                 alt="Secondary engagement invitation artwork"
               />
               <div className="invite-card__overlay-card">
@@ -133,7 +235,7 @@ function App() {
             <div className="invite-card__third">
               <img
                 className="invite-card__third-image"
-                src={thirdPanel}
+                src={springFrame}
                 alt="Floral invitation artwork"
               />
               <div className="invite-card__third-gallery">
@@ -158,7 +260,7 @@ function App() {
             <div className="invite-card__fourth">
               <img
                 className="invite-card__fourth-image"
-                src={thirdPanel}
+                src={springFrame}
                 alt="Countdown invitation artwork"
               />
               <div className="invite-card__fourth-content">
@@ -180,6 +282,61 @@ function App() {
                     <strong>{timeLeft.seconds}</strong>
                     <span>Seconds</span>
                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="reveal">
+            <div className="invite-card__fifth">
+              <img
+                className="invite-card__fifth-image"
+                src={springFrame}
+                alt="Scratch card invitation artwork"
+              />
+              <div className="invite-card__fifth-content">
+                <p className="invite-card__fifth-eyebrow">A Special Reveal</p>
+                <div className="invite-card__scratch-shell">
+                  <div
+                    key={scratchCelebrationKey}
+                    className={`invite-card__scratch-pop ${scratchCelebrationKey > 0 ? 'is-active' : ''}`}
+                    aria-hidden="true"
+                  >
+                    <span />
+                    <span />
+                    <span />
+                    <span />
+                    <span />
+                    <span />
+                    <span />
+                    <span />
+                    <span />
+                    <span />
+                    <span />
+                    <span />
+                  </div>
+                  <div className="invite-card__scratch-result">
+                    <span>Engagement Date</span>
+                    <strong>23 October 2026</strong>
+                  </div>
+                  <canvas
+                    ref={scratchCanvasRef}
+                    className="invite-card__scratch-canvas"
+                    onPointerDown={(event) => {
+                      scratchDrawingRef.current = true
+                      scratchAtPoint(event)
+                    }}
+                    onPointerMove={(event) => {
+                      if (scratchDrawingRef.current) {
+                        scratchAtPoint(event)
+                      }
+                    }}
+                    onPointerUp={() => {
+                      scratchDrawingRef.current = false
+                    }}
+                    onPointerLeave={() => {
+                      scratchDrawingRef.current = false
+                    }}
+                  />
                 </div>
               </div>
             </div>
