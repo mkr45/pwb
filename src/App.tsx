@@ -206,9 +206,9 @@ function App() {
               />
               <div className="invite-card__content">
                 <p className="invite-card__eyebrow">Engagement Ceremony</p>
-                <h1>Prashant Agarawal</h1>
+                <h1>Prashant Agarwal</h1>
                 <div className="invite-card__ampersand">&</div>
-                <h1>Bulbul Agarawal</h1>
+                <h1>Bulbul Agarwal</h1>
               </div>
             </div>
           </div>
@@ -252,36 +252,6 @@ function App() {
                 <div className="invite-card__third-copy">
                   <p>A glimpse of the couple</p>
                   <span>Prashant and Bulbul, ready to begin their forever with love, laughter, and togetherness.</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="reveal">
-            <div className="invite-card__fourth">
-              <img
-                className="invite-card__fourth-image"
-                src={springFrame}
-                alt="Countdown invitation artwork"
-              />
-              <div className="invite-card__fourth-content">
-                <p className="invite-card__fourth-eyebrow">Counting Down To Our Day</p>
-                <div className="invite-card__fourth-grid">
-                  <div className="invite-card__fourth-box">
-                    <strong>{timeLeft.days}</strong>
-                    <span>Days</span>
-                  </div>
-                  <div className="invite-card__fourth-box">
-                    <strong>{timeLeft.hours}</strong>
-                    <span>Hours</span>
-                  </div>
-                  <div className="invite-card__fourth-box">
-                    <strong>{timeLeft.minutes}</strong>
-                    <span>Minutes</span>
-                  </div>
-                  <div className="invite-card__fourth-box">
-                    <strong>{timeLeft.seconds}</strong>
-                    <span>Seconds</span>
-                  </div>
                 </div>
               </div>
             </div>
@@ -337,6 +307,36 @@ function App() {
                       scratchDrawingRef.current = false
                     }}
                   />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="reveal">
+            <div className="invite-card__fourth">
+              <img
+                className="invite-card__fourth-image"
+                src={springFrame}
+                alt="Countdown invitation artwork"
+              />
+              <div className="invite-card__fourth-content">
+                <p className="invite-card__fourth-eyebrow">Counting Down To Our Day</p>
+                <div className="invite-card__fourth-grid">
+                  <div className="invite-card__fourth-box">
+                    <strong>{timeLeft.days}</strong>
+                    <span>Days</span>
+                  </div>
+                  <div className="invite-card__fourth-box">
+                    <strong>{timeLeft.hours}</strong>
+                    <span>Hours</span>
+                  </div>
+                  <div className="invite-card__fourth-box">
+                    <strong>{timeLeft.minutes}</strong>
+                    <span>Minutes</span>
+                  </div>
+                  <div className="invite-card__fourth-box">
+                    <strong>{timeLeft.seconds}</strong>
+                    <span>Seconds</span>
+                  </div>
                 </div>
               </div>
             </div>
