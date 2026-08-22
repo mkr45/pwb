@@ -280,14 +280,14 @@ function App() {
                   overlayCloseTimeoutRef.current = window.setTimeout(() => {
                     setShowMusicOverlay(false)
                     setIsOverlayClosing(false)
-                  }, 700)
+                  }, 1500)
                   setIsGiftOpening(false)
                 } catch {
                   setShowMusicOverlay(true)
                   setIsOverlayClosing(false)
                   setIsGiftOpening(false)
                 }
-              }, 900)
+              }, 1900)
             }}
           >
             <span className="music-overlay__eyebrow">A Special Surprise</span>
