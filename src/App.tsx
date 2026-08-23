@@ -1,7 +1,7 @@
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { useEffect, useRef, useState } from 'react'
 import engagementBg from './assets/engagement-bg.jpg'
-import mastMaganAudio from './assets/mast-magan.mp3'
+import mushkilHaiAudio from './assets/mushkil-hai.mp3'
 import couplePhoto from './assets/couple-photo.jpeg'
 import springFrame from './assets/spring-frame.jpg'
 import thirdPhotoOne from './assets/third-photo-one.jpeg'
@@ -249,7 +249,7 @@ function App() {
 
   return (
     <main className="page">
-      <audio ref={audioRef} src={mastMaganAudio} loop autoPlay />
+      <audio ref={audioRef} src={mushkilHaiAudio} loop autoPlay />
       {showMusicOverlay ? (
         <div className={`music-overlay ${isOverlayClosing ? 'music-overlay--closing' : ''}`}>
           <div className="music-overlay__decor" aria-hidden="true">
